@@ -1,0 +1,143 @@
+<section
+  class="relative isolate flex min-h-screen items-center justify-center overflow-hidden bg-background p-3"
+>
+  <!-- Main Container -->
+  <div
+    class="container mx-auto grid min-h-[min(650px,calc(100dvh-24px))] overflow-hidden rounded-3xl border border-white/50 bg-white/10 shadow-2xl shadow-[#6a795d]/10 backdrop-blur-sm md:grid-cols-2"
+  >
+    <!-- Welcome Section -->
+    <div
+      class="flex flex-col justify-center border-b border-white/40 bg-secondary/20 p-6 backdrop-blur-xl md:border-b-0 md:border-r lg:p-10"
+    >
+      <h1 class="mb-4 text-3xl font-bold text-[#3f4935] lg:text-4xl">
+        {{ 'auth.WELCOME_BACK' | translate }}
+      </h1>
+
+      <p class="max-w-sm text-sm leading-7 text-[#59634d] lg:text-base">
+        {{ 'auth.WELCOME_DESCRIPTION' | translate }}
+      </p>
+    </div>
+
+    <!-- Login Section -->
+    <div class="flex flex-col justify-center bg-white/20 p-6 backdrop-blur-xl sm:p-8 lg:p-12">
+      <h2 class="mb-2 text-3xl font-bold text-[#3f4935]">
+        {{ 'auth.LOGIN' | translate }}
+      </h2>
+
+      <p class="mb-8 text-sm text-[#6a795d]">
+        {{ 'auth.LOGIN_DESCRIPTION' | translate }}
+      </p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="sendLoginData()">
+        <!-- Email -->
+        <div class="relative z-0 mb-6 w-full group">
+          <input
+            formControlName="email"
+            type="email"
+            id="loginEmail"
+            placeholder=" "
+            class="peer block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-3 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+
+          <label
+            for="loginEmail"
+            class="pointer-events-none absolute top-3 -z-10 origin-left -translate-y-6 scale-75 transform text-sm text-[#6a795d] duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75"
+          >
+            {{ 'auth.EMAIL_ADDRESS' | translate }}
+          </label>
+        </div>
+
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            @if (loginForm.get('email')?.hasError('required')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'auth.EMAIL_REQUIRED' | translate }}</span>
+              </li>
+            } @else if (loginForm.get('email')?.hasError('email')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'auth.EMAIL_INVALID' | translate }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        <!-- Password -->
+        <div class="relative z-0 mb-4 w-full group">
+          <input
+            formControlName="password"
+            type="password"
+            id="loginPassword"
+            placeholder=" "
+            class="peer block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-3 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+
+          <label
+            for="loginPassword"
+            class="pointer-events-none absolute top-3 -z-10 origin-left -translate-y-6 scale-75 transform text-sm text-[#6a795d] duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-6 peer-focus:scale-75"
+          >
+            {{ 'auth.PASSWORD' | translate }}
+          </label>
+        </div>
+
+        @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            @if (loginForm.get('password')?.hasError('required')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'auth.PASSWORD_REQUIRED' | translate }}</span>
+              </li>
+            } @else if (loginForm.get('password')?.hasError('pattern')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'auth.PASSWORD_PATTERN' | translate }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        <!-- Forgot Password -->
+        <div class="mb-8 flex justify-end">
+          <a
+            routerLink="/forgetpassword"
+            class="text-sm font-medium text-[#3F665D] transition-colors duration-200 hover:text-[#6A795D] hover:underline"
+          >
+            {{ 'auth.FORGOT_PASSWORD' | translate }}
+          </a>
+        </div>
+
+        <!-- Login Button -->
+        <button
+          [disabled]="isLoading()"
+          type="submit"
+          class="disabled:bg-gray-500 w-full cursor-pointer rounded-xl bg-[#6A795D] px-5 py-3.5 text-base font-semibold text-white shadow-lg shadow-[#6A795D]/20 transition-all duration-300 hover:bg-[#3F4935] hover:shadow-xl hover:shadow-[#6A795D]/30 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8E9162] focus-visible:ring-offset-2"
+        >
+          {{ 'auth.LOGIN' | translate }}
+
+          @if (isLoading()) {
+            <i class="fas fa-spinner"></i>
+          }
+        </button>
+      </form>
+
+      <!-- Sign Up Link -->
+      <div class="mt-6 flex flex-wrap items-center justify-center gap-1.5 text-sm">
+        <p class="text-[#6A795D]">
+          {{ 'auth.SIGN_UP_QUESTION' | translate }}
+        </p>
+
+        <a
+          routerLink="/register"
+          class="font-semibold text-[#3F665D] underline-offset-4 transition-colors duration-200 hover:text-[#6A795D] hover:underline focus-visible:outline-none focus-visible:underline"
+        >
+          {{ 'auth.SIGN_UP_HERE' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

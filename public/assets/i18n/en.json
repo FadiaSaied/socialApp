@@ -1,0 +1,45 @@
+{
+  "auth": {
+    "WELCOME_BACK": "Welcome Back!",
+    "WELCOME_DESCRIPTION": "Your people, your moments, your world. Sign in and reconnect with the people who matter to you.",
+    "LOGIN": "Log In",
+    "LOGIN_DESCRIPTION": "Enter your details to access your account.",
+    "EMAIL_ADDRESS": "Email address",
+    "EMAIL_REQUIRED": "Please enter your email address.",
+    "EMAIL_INVALID": "Please enter a valid email address.",
+    "PASSWORD": "Password",
+    "PASSWORD_REQUIRED": "Please enter your password.",
+    "PASSWORD_PATTERN": "Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.",
+    "FORGOT_PASSWORD": "Forgot password?",
+    "SIGN_UP_QUESTION": "Don't have an account?",
+    "SIGN_UP_HERE": "Sign up here"
+  },
+
+  "register": {
+    "GET_STARTED": "Let's get started!",
+    "REGISTER_DESCRIPTION": "Your people, your moments, your world. Let's get connected!",
+    "SIGN_UP": "Sign Up",
+    "FULL_NAME": "Full name",
+    "NAME_REQUIRED": "Please enter your full name.",
+    "NAME_MINLENGTH": "Name must be at least 3 characters long.",
+    "USERNAME": "User name (optional)",
+    "EMAIL_ADDRESS": "Email address",
+    "EMAIL_REQUIRED": "Please enter your email address.",
+    "EMAIL_INVALID": "Please enter a valid email address.",
+    "SELECT_GENDER": "Select gender",
+    "MALE": "Male",
+    "FEMALE": "Female",
+    "GENDER_REQUIRED": "Please select your gender.",
+    "DATE_OF_BIRTH": "Date of birth",
+    "DATE_REQUIRED": "Please select your date of birth.",
+    "PASSWORD": "Password",
+    "PASSWORD_REQUIRED": "Please enter your password.",
+    "PASSWORD_PATTERN": "Password must be at least 8 characters and include uppercase, lowercase, a number, and a special character.",
+    "CONFIRM_PASSWORD": "Confirm password",
+    "CONFIRM_PASSWORD_REQUIRED": "Please confirm your password.",
+    "PASSWORD_MISMATCH": "Passwords do not match.",
+    "CREATE_ACCOUNT": "Create your account",
+    "ALREADY_MEMBER": "Already a member?",
+    "SIGN_IN_HERE": "Sign in here"
+  }
+}

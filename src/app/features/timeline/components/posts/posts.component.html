@@ -1,0 +1,324 @@
+<!-- creat post -->
+
+<form
+  #el
+  (submit)="sendForm($event, el)"
+  class="rounded-2xl border border-olive/15 bg-surface p-15 shadow-sm sm:p-5 mb-5"
+>
+  <div class="mb-4 flex items-center gap-3">
+    <img
+      [src]="user().photo"
+      [alt]="user().name"
+      class="size-11 rounded-full border-2 border-secondary/60 object-cover"
+    />
+
+    <div>
+      <p class="font-semibold text-text">{{ user().name }}</p>
+      <p class="text-xs text-text-muted">Share something with your people</p>
+    </div>
+  </div>
+
+  <textarea
+    [formControl]="content"
+    rows="3"
+    placeholder="What's on your mind?"
+    class="w-full resize-y rounded-xl border border-olive/15 bg-background/70 px-4 py-3 text-sm text-text outline-none placeholder:text-text-muted/80 transition focus:border-primary/60 focus:ring-2 focus:ring-primary/10"
+  ></textarea>
+
+  <div class="mt-4 flex flex-wrap items-center justify-between gap-3">
+    <div class="flex flex-wrap items-center gap-2">
+      <input (change)="selectPhoto($event)" type="file" id="file" class="hidden" />
+      <label
+        for="file"
+        class="cursor-pointer rounded-lg px-3 py-2 text-sm text-text-muted transition hover:bg-secondary/20"
+      >
+        <i class="fa-regular fa-image text-primary"></i> Photo</label
+      >
+
+      <select
+        [formControl]="privacy"
+        aria-label="Post privacy"
+        class="cursor-pointer max-w-40 rounded-lg border border-olive/15 bg-background px-3 py-2 text-xs text-text outline-none focus:border-primary/60"
+      >
+        <option>public</option>
+        <option>following</option>
+        <option>only_me</option>
+      </select>
+    </div>
+
+    <button
+      type="submit"
+      class="cursor-pointer rounded-xl bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-text"
+    >
+      <i class="fa-solid fa-paper-plane mr-2"></i>
+      Create post
+    </button>
+  </div>
+  @if (imgSrc()) {
+    <div class="relative mt-4 overflow-hidden rounded-xl">
+      <button
+        type="button"
+        (click)="deletePhoto()"
+        aria-label="Remove image"
+        class="absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-full border border-white/30 bg-[#6a795d]/90 text-white shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-[#3f4935] active:scale-95"
+      >
+        <i class="fas fa-xmark text-sm"></i>
+      </button>
+
+      <img [src]="imgSrc()" alt="imgPost" class="h-62.5 w-full object-cover" />
+    </div>
+  }
+</form>
+<!-- all-posts -->
+<section class="grid gap-5">
+  @for (post of allPosts(); track post._id) {
+    <article
+      class="overflow-hidden rounded-2xl border border-olive/15 bg-surface shadow-sm transition hover:shadow-md hover:shadow-olive/5"
+    >
+      <!-- Post Header -->
+      <div class="flex items-start gap-3 p-4 sm:p-5">
+        <img
+          [src]="post.user.photo"
+          [alt]="post.user.name"
+          class="size-11 shrink-0 rounded-full border-2 border-secondary/50 object-cover"
+        />
+
+        <div class="min-w-0 flex-1">
+          <p class="truncate font-semibold text-text">{{ post.user.name }}</p>
+          <p class="truncate text-xs text-text-muted">
+            @{{ post.user.username }} · {{ post.createdAt | date: 'short' }}
+          </p>
+        </div>
+
+        <!-- Privacy Dropdown -->
+        <div class="relative group">
+          <button
+            type="button"
+            aria-label="Post privacy"
+            class="flex items-center gap-1.5 rounded-full bg-secondary/15 px-3 py-2 text-xs font-medium text-text-muted transition hover:bg-secondary/25"
+          >
+            <!-- <i class="fa-solid fa-earth-americas"></i> -->
+            <span>{{ post.privacy }}</span>
+            <i class="fa-solid fa-chevron-down text-[9px]"></i>
+          </button>
+
+          <!-- Privacy Menu -->
+
+          @if (post.user._id === userId()) {
+            <div
+              class="invisible absolute right-0 top-full z-20 mt-2 w-44 translate-y-1 rounded-xl border border-olive/15 bg-surface p-1.5 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100"
+            >
+              <button
+                (click)="post.privacy = 'public'"
+                type="button"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+              >
+                <i class="fa-solid fa-earth-americas w-4 text-center text-text-muted"></i>
+                <span>Public</span>
+              </button>
+
+              <button
+                (click)="post.privacy = 'followers only'"
+                type="button"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+              >
+                <i class="fa-solid fa-users w-4 text-center text-text-muted"></i>
+                <span>Followers only</span>
+              </button>
+
+              <button
+                (click)="post.privacy = 'only me'"
+                type="button"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+              >
+                <i class="fa-solid fa-lock w-4 text-center text-text-muted"></i>
+                <span>Only me</span>
+              </button>
+            </div>
+          }
+        </div>
+
+        <!-- Post Options Dropdown -->
+        <div class="relative group">
+          <button
+            type="button"
+            aria-label="Post options"
+            class="flex size-9 items-center justify-center rounded-full text-text-muted transition hover:bg-secondary/20 hover:text-text"
+          >
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+
+          <!-- Options Menu -->
+
+          <div
+            class="invisible absolute right-0 top-full z-20 mt-2 w-48 translate-y-1 rounded-xl border border-olive/15 bg-surface p-1.5 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100"
+          >
+            @if (post.user._id !== userId()) {
+              <button
+                type="button"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+              >
+                <i class="fa-regular fa-bookmark w-4 text-center text-text-muted"></i>
+                <span>Save post</span>
+              </button>
+            } @else {
+              <button
+                (click)="openModal(post)"
+                type="button"
+                class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+              >
+                <i class="fa-solid fa-pen-to-square w-4 text-center text-text-muted"></i>
+                <span>Edit post</span>
+              </button>
+
+              <div class="my-1 border-t border-olive/10"></div>
+
+              <button
+                (click)="deleteItem(post._id)"
+                type="button"
+                class="cursor-pointer flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-red-600 transition hover:bg-red-500/10"
+              >
+                <i class="fa-regular fa-trash-can w-4 text-center"></i>
+                <span>Delete post</span>
+              </button>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Post Text -->
+      @if (post.body) {
+        <p class="whitespace-pre-line wrap-break px-4 pb-4 text-sm leading-7 text-text sm:px-5">
+          {{ post.body | trim: 30 }}
+        </p>
+      }
+
+      <!-- Post Image -->
+      @if (post.image) {
+        <img [src]="post.image" [alt]="post.body" class="max-h-130 w-full object-cover" />
+      }
+
+      <!-- Engagement Counts -->
+      <div
+        class="flex items-center justify-between gap-3 px-4 py-3 text-xs text-text-muted sm:px-5"
+      >
+        <span>
+          <i class="fa-solid fa-heart mr-1 text-primary"></i>
+          {{ post.likesCount }} likes
+        </span>
+
+        <span>{{ post.commentsCount }} comments · {{ post.sharesCount }} shares</span>
+      </div>
+
+      <div class="mx-4 border-t border-olive/10 sm:mx-5"></div>
+
+      <!-- Actions: Static UI -->
+      <div class="grid grid-cols-4 gap-1 p-2 sm:px-3">
+        <button
+          type="button"
+          class="flex items-center justify-center gap-2 rounded-lg py-3 text-xs font-medium text-text-muted transition hover:bg-secondary/15 sm:text-sm"
+        >
+          <i class="fa-regular fa-heart"></i>
+          Like
+        </button>
+
+        <button
+          #el
+          class="cursor-pointer flex items-center justify-center gap-2 rounded-lg py-3 text-xs font-medium text-text-muted transition hover:bg-secondary/15 sm:text-sm"
+        >
+          <i class="fa-regular fa-comment"></i>
+          Comment
+        </button>
+
+        <button
+          type="button"
+          class="flex items-center justify-center gap-2 rounded-lg py-3 text-xs font-medium text-text-muted transition hover:bg-secondary/15 sm:text-sm"
+        >
+          <i class="fa-solid fa-share"></i>
+          Share
+        </button>
+
+        <button
+          [routerLink]="['/details', post._id]"
+          class="flex items-center justify-center gap-2 rounded-lg py-3 text-xs font-medium text-text-muted transition hover:bg-secondary/15 sm:text-sm"
+        >
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          Details
+        </button>
+      </div>
+      @defer (on interaction(el)) {
+        <app-comments [postId]="post.id"></app-comments>
+      }
+    </article>
+  }
+</section>
+
+<!-- modal -->
+
+@if (isEditModalOpen()) {
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div class="w-full max-w-lg rounded-3xl bg-surface p-6 shadow-xl">
+      <h2 class="mb-5 text-xl font-bold text-text">Edit Post</h2>
+
+      <form [formGroup]="editInfo" (ngSubmit)="updatePost()">
+        <!-- Body -->
+        <textarea
+          formControlName="body"
+          rows="4"
+          class="w-full rounded-xl border border-olive/20 bg-background p-4 text-text outline-none focus:border-primary"
+          placeholder="What's on your mind?"
+        ></textarea>
+
+        <!-- Current Image -->
+
+        <input (change)="selectEditPhoto($event)" type="file" id="editfile" class="hidden" />
+        <label
+          for="editfile"
+          class="cursor-pointer rounded-lg px-3 py-2 text-sm text-text-muted transition hover:bg-secondary/20"
+        >
+          <i class="fa-regular fa-image text-primary"></i> Photo</label
+        >
+
+        @if (editImgSrc()) {
+          <div class="relative mt-4 overflow-hidden rounded-xl">
+            <button
+              type="button"
+              (click)="deleteEditPhoto()"
+              aria-label="Remove image"
+              class="absolute right-3 top-3 z-10 flex size-8 items-center justify-center rounded-full border border-white/30 bg-[#6a795d]/90 text-white shadow-md backdrop-blur-sm transition-all duration-200 hover:scale-110 hover:bg-[#3f4935] active:scale-95"
+            >
+              <i class="fas fa-xmark text-sm"></i>
+            </button>
+
+            <img [src]="editImgSrc()" alt="imgPost" class="h-62.5 w-full object-cover" />
+          </div>
+        }
+
+        <!-- Privacy -->
+        <select
+          formControlName="privacy"
+          class="my-4 w-full rounded-xl border border-olive/20 bg-background p-3 text-text"
+        >
+          <option value="public">public</option>
+          <option value="following">following</option>
+          <option value="only_me">only_me</option>
+        </select>
+
+        <!-- Actions -->
+        <div class="flex gap-3">
+          <button
+            (click)="hideModal()"
+            type="button"
+            class="flex-1 rounded-xl border border-olive/20 py-3 text-text"
+          >
+            Cancel
+          </button>
+
+          <button type="submit" class="flex-1 rounded-xl bg-primary py-3 font-semibold text-white">
+            Save Changes
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

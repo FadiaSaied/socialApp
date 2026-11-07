@@ -1,0 +1,22 @@
+<section>
+  <div class="min-h-screen bg-background px-3 py-6 sm:px-5 lg:px-8">
+    <div
+      class="mx-auto grid max-w-7xl grid-cols-1 items-start gap-6 lg:grid-cols-[220px_minmax(0,1fr)_280px]"
+    >
+      <!-- Left Sidebar -->
+      <aside class="hidden lg:sticky lg:top-24 lg:block">
+        <app-side-left></app-side-left>
+      </aside>
+
+      <!-- Main Feed -->
+      <main class="min-w-0 space-y-5">
+        <app-posts></app-posts>
+      </main>
+
+      <!-- Right Sidebar -->
+      <aside class="hidden lg:sticky lg:top-24 lg:block">
+        <app-side-right></app-side-right>
+      </aside>
+    </div>
+  </div>
+</section>

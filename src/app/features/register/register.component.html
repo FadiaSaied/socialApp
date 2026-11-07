@@ -1,0 +1,272 @@
+<section class="relative isolate min-h-screen overflow-hidden bg-background p-3">
+  <!-- Main Container -->
+  <div
+    class="container grid min-h-[calc(100dvh-24px)] overflow-hidden rounded-3xl border border-white/50 bg-white/10 shadow-2xl shadow-[#6a795d]/10 backdrop-blur-sm md:grid-cols-2"
+  >
+    <!-- Welcome Section -->
+    <div
+      class="flex flex-col justify-center border-b border-white/40 bg-secondary/20 p-6 backdrop-blur-xl md:border-b-0 md:border-r lg:p-8"
+    >
+      <h1 class="mb-4 text-3xl font-bold text-[#3f4935] lg:text-4xl">
+        {{ 'register.GET_STARTED' | translate }}
+      </h1>
+
+      <p class="max-w-sm text-sm leading-7 text-[#59634d] lg:text-base">
+        {{ 'register.REGISTER_DESCRIPTION' | translate }}
+      </p>
+    </div>
+
+    <!-- Sign Up Section -->
+    <div class="flex flex-col justify-center bg-white/20 p-5 backdrop-blur-xl sm:p-6 lg:p-8">
+      <h2 class="mb-5 text-2xl font-bold text-[#3f4935]">
+        {{ 'register.SIGN_UP' | translate }}
+      </h2>
+
+      <form [formGroup]="registerForm" (ngSubmit)="sendRegisterData()">
+        <!-- Full Name -->
+        <div class="relative z-0 mb-3 w-full">
+          <input
+            formControlName="name"
+            type="text"
+            id="fullName"
+            placeholder=" "
+            class="peer block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-2.5 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+
+          <label
+            for="fullName"
+            class="pointer-events-none absolute top-2.5 -z-10 origin-left -translate-y-5 scale-75 transform text-sm text-[#6a795d] duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-5 peer-focus:scale-75"
+          >
+            {{ 'register.FULL_NAME' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('name')?.invalid && registerForm.get('name')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            @if (registerForm.get('name')?.hasError('required')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'register.NAME_REQUIRED' | translate }}</span>
+              </li>
+            } @else if (registerForm.get('name')?.hasError('minlength')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'register.NAME_MINLENGTH' | translate }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        <!-- User Name -->
+        <div class="relative z-0 mb-3 w-full">
+          <input
+            formControlName="username"
+            type="text"
+            id="userName"
+            placeholder=" "
+            class="peer block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-2.5 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+
+          <label
+            for="userName"
+            class="pointer-events-none absolute top-2.5 -z-10 origin-left -translate-y-5 scale-75 transform text-sm text-[#6a795d] duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-5 peer-focus:scale-75"
+          >
+            {{ 'register.USERNAME' | translate }}
+          </label>
+        </div>
+
+        <!-- Email -->
+        <div class="relative z-0 mb-3 w-full">
+          <input
+            formControlName="email"
+            type="email"
+            id="mail"
+            placeholder=" "
+            required
+            class="peer block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-2.5 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+
+          <label
+            for="mail"
+            class="pointer-events-none absolute top-2.5 -z-10 origin-left -translate-y-5 scale-75 transform text-sm text-[#6a795d] duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-5 peer-focus:scale-75"
+          >
+            {{ 'register.EMAIL_ADDRESS' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            @if (registerForm.get('email')?.hasError('required')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'register.EMAIL_REQUIRED' | translate }}</span>
+              </li>
+            } @else if (registerForm.get('email')?.hasError('email')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'register.EMAIL_INVALID' | translate }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        <!-- Gender -->
+        <div class="relative z-0 mb-3 w-full">
+          <select
+            formControlName="gender"
+            id="gender"
+            class="block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-2.5 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          >
+            <option value="" disabled selected hidden>
+              {{ 'register.SELECT_GENDER' | translate }}
+            </option>
+
+            <option value="male">{{ 'register.MALE' | translate }}</option>
+            <option value="female">{{ 'register.FEMALE' | translate }}</option>
+          </select>
+        </div>
+
+        @if (registerForm.get('gender')?.invalid && registerForm.get('gender')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+              <span>{{ 'register.GENDER_REQUIRED' | translate }}</span>
+            </li>
+          </ul>
+        }
+
+        <!-- Date of Birth -->
+        <div class="relative z-0 mb-3 w-full">
+          <input
+            formControlName="dateOfBirth"
+            type="date"
+            id="date"
+            class="block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-2.5 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+        </div>
+
+        @if (registerForm.get('dateOfBirth')?.invalid && registerForm.get('dateOfBirth')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+              <span>{{ 'register.DATE_REQUIRED' | translate }}</span>
+            </li>
+          </ul>
+        }
+
+        <!-- Password -->
+        <div class="relative z-0 mb-3 w-full">
+          <input
+            formControlName="password"
+            type="password"
+            id="password"
+            placeholder=" "
+            class="peer block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-2.5 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+
+          <label
+            for="password"
+            class="pointer-events-none absolute top-2.5 -z-10 origin-left -translate-y-5 scale-75 transform text-sm text-[#6a795d] duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-5 peer-focus:scale-75"
+          >
+            {{ 'register.PASSWORD' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('password')?.invalid && registerForm.get('password')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            @if (registerForm.get('password')?.hasError('required')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'register.PASSWORD_REQUIRED' | translate }}</span>
+              </li>
+            }
+
+            @if (registerForm.get('password')?.hasError('pattern')) {
+              <li class="flex items-start gap-2">
+                <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+                <span>{{ 'register.PASSWORD_PATTERN' | translate }}</span>
+              </li>
+            }
+          </ul>
+        }
+
+        <!-- Confirm Password -->
+        <div class="relative z-0 mb-5 w-full">
+          <input
+            formControlName="rePassword"
+            type="password"
+            id="repassword"
+            placeholder=" "
+            class="peer block w-full appearance-none border-0 border-b-2 border-[#8e9162]/40 bg-transparent px-0 py-2.5 text-sm text-[#3f4935] focus:border-[#6a795d] focus:outline-none focus:ring-0"
+          />
+
+          <label
+            for="repassword"
+            class="pointer-events-none absolute top-2.5 -z-10 origin-left -translate-y-5 scale-75 transform text-sm text-[#6a795d] duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:-translate-y-5 peer-focus:scale-75"
+          >
+            {{ 'register.CONFIRM_PASSWORD' | translate }}
+          </label>
+        </div>
+
+        @if (registerForm.get('rePassword')?.invalid && registerForm.get('rePassword')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+              <span>{{ 'register.CONFIRM_PASSWORD_REQUIRED' | translate }}</span>
+            </li>
+          </ul>
+        }
+
+        @if (registerForm.hasError('mismatch') && registerForm.get('rePassword')?.touched) {
+          <ul
+            class="mt-2 space-y-1 rounded-xl border border-[#a18470]/25 bg-[#a18470]/10 px-3 py-2 text-sm text-[#8e634d]"
+          >
+            <li class="flex items-start gap-2">
+              <i class="fa-solid fa-circle-exclamation mt-1 text-xs"></i>
+              <span>{{ 'register.PASSWORD_MISMATCH' | translate }}</span>
+            </li>
+          </ul>
+        }
+
+        <!-- Submit Button -->
+        <button
+          [disabled]="isLoading()"
+          type="submit"
+          class="disabled:bg-gray-500 w-full cursor-pointer rounded-xl bg-[#6A795D] px-5 py-3 text-base font-semibold text-white shadow-lg shadow-[#6A795D]/20 transition-all duration-300 hover:bg-[#3F4935] hover:shadow-xl hover:shadow-[#6A795D]/30 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8E9162] focus-visible:ring-offset-2"
+        >
+          {{ 'register.CREATE_ACCOUNT' | translate }}
+
+          @if (isLoading()) {
+            <i class="fas fa-spinner"></i>
+          }
+        </button>
+      </form>
+
+      <!-- Sign In Link -->
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-1.5 text-sm">
+        <p class="text-[#6A795D]">
+          {{ 'register.ALREADY_MEMBER' | translate }}
+        </p>
+
+        <a
+          routerLink="/login"
+          class="font-semibold text-[#3F665D] underline-offset-4 transition-colors duration-200 hover:text-[#6A795D] hover:underline focus-visible:outline-none focus-visible:underline"
+        >
+          {{ 'register.SIGN_IN_HERE' | translate }}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

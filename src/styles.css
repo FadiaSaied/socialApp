@@ -1,3 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+@import 'flowbite/src/themes/default';
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+@import 'ngx-toastr/toastr';
+
+@theme {
+  /* Backgrounds */
+  --color-background: #f7f6ee;
+
+  --color-surface: #ffffff;
+
+  /* Text */
+  --color-text: #6a795d;
+  --color-text-muted: #8e9162;
+
+  /* Brand colors */
+  --color-primary: #6a795d;
+  --color-secondary: #b2bd7e;
+  --color-accent: #d9d28b;
+  --color-olive: #8e9162;
+}
+
+@utility container {
+  margin-inline: auto;
+}
+
+@font-face {
+  font-family: 'snPro';
+  src: url(/public/fonts/SN_Pro/SNPro-VariableFont_wght.ttf);
+}
+body {
+  font-family: 'snPro';
+}

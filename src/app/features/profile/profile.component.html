@@ -1,0 +1,307 @@
+<main class="min-h-screen bg-background px-4 pb-10 pt-5 sm:px-6 lg:px-8">
+  <div class="mx-auto max-w-7xl space-y-6">
+    <section
+      class="relative overflow-hidden rounded-3xl border border-olive/15 bg-surface shadow-sm"
+    >
+      <!-- Cover -->
+      <div
+        class="relative h-44 overflow-hidden bg-linear-to-br from-[#3f4935] via-[#6a795d] to-[#a4ae87] sm:h-56 lg:h-64"
+      >
+        <!-- Decorative Glass Shapes -->
+        <div
+          class="absolute -right-12 -top-20 size-72 rounded-full border border-white/10 bg-white/5 blur-2xl"
+        ></div>
+
+        <div class="absolute -bottom-24 left-1/4 size-64 rounded-full bg-accent/15 blur-3xl"></div>
+
+        <div
+          class="absolute right-1/3 top-10 size-40 rounded-full border border-white/10 bg-white/5 blur-xl"
+        ></div>
+
+        <div class="absolute inset-0 bg-linear-to-r from-black/15 to-transparent"></div>
+      </div>
+
+      <!-- Profile Content -->
+      <div class="relative px-4 pb-6 sm:px-7 sm:pb-8 lg:px-9">
+        <!-- Profile Header -->
+        <div
+          class="-mt-12 flex flex-col gap-5 sm:-mt-14 lg:flex-row lg:items-end lg:justify-between"
+        >
+          <!-- User Information -->
+          <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-5">
+            <!-- Profile Image -->
+            <div class="relative mx-auto shrink-0 sm:mx-0">
+              <div
+                class="rounded-full border-[5px] border-surface bg-surface p-0.5 shadow-lg shadow-olive/10"
+              >
+                <img
+                  [src]="profile().photo"
+                  [alt]="profile().name"
+                  class="size-28 rounded-full border-2 border-secondary/40 object-cover sm:size-32"
+                />
+              </div>
+
+              <!-- Edit Photo -->
+              <label
+                aria-label="Edit profile picture"
+                class="cursor-pointer absolute bottom-1 left-1 flex size-8 items-center justify-center rounded-full border-2 border-surface bg-primary text-white shadow-md transition hover:bg-[#526247]"
+              >
+                <i class="fa-solid fa-camera text-xs"></i>
+                <input (change)="uploadPhoto($event)" type="file" class="hidden" />
+              </label>
+            </div>
+
+            <!-- Name & Username -->
+            <div class="min-w-0 pb-1 text-center sm:text-left">
+              <h1 class="text-2xl font-bold tracking-tight text-text sm:text-3xl">
+                {{ profile().name }}
+              </h1>
+
+              <p class="mt-1 text-sm text-text-muted">@{{ profile().username }}</p>
+
+              <div
+                class="mt-3 inline-flex items-center gap-2 rounded-full border border-secondary/30 bg-secondary/10 px-3 py-1.5 text-xs font-medium text-primary"
+              >
+                <i class="fa-solid fa-user-check"></i>
+                Community Member
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Stats -->
+          <div class="grid grid-cols-3 gap-2 sm:gap-3 lg:min-w-110">
+            <!-- Followers -->
+            <div
+              class="rounded-2xl border border-olive/15 bg-background/80 px-2 py-4 text-center transition hover:border-secondary/50 hover:shadow-sm sm:px-4"
+            >
+              <i class="fa-solid fa-users text-sm text-primary"></i>
+              <p
+                class="mt-2 text-2xs font-semibold uppercase tracking-wider text-text-muted sm:text-xs"
+              >
+                Followers
+              </p>
+              <p class="mt-1 text-xl font-bold tabular-nums text-text sm:text-2xl">
+                {{ profile().followersCount }}
+              </p>
+            </div>
+
+            <!-- Following -->
+            <div
+              class="rounded-2xl border border-olive/15 bg-background/80 px-2 py-4 text-center transition hover:border-secondary/50 hover:shadow-sm sm:px-4"
+            >
+              <i class="fa-solid fa-user-group text-sm text-primary"></i>
+              <p
+                class="mt-2 text-2xs font-semibold uppercase tracking-wider text-text-muted sm:text-xs"
+              >
+                Following
+              </p>
+              <p class="mt-1 text-xl font-bold tabular-nums text-text sm:text-2xl">
+                {{ profile().followingCount }}
+              </p>
+            </div>
+
+            <!-- Bookmarks -->
+            <div
+              class="rounded-2xl border border-olive/15 bg-background/80 px-2 py-4 text-center transition hover:border-secondary/50 hover:shadow-sm sm:px-4"
+            >
+              <i class="fa-solid fa-bookmark text-sm text-primary"></i>
+              <p
+                class="mt-2 text-2xs font-semibold uppercase tracking-wider text-text-muted sm:text-xs"
+              >
+                Bookmarks
+              </p>
+              <p class="mt-1 text-xl font-bold tabular-nums text-text sm:text-2xl">
+                {{ profile().bookmarksCount }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- About & Activity -->
+        <div class="mt-7 grid grid-cols-1 gap-4 lg:grid-cols-3">
+          <!-- About -->
+          <div class="rounded-2xl border border-olive/15 bg-background/70 p-5 lg:col-span-2">
+            <div class="mb-4 flex items-center justify-between">
+              <h2 class="flex items-center gap-2 font-semibold text-text">
+                <i class="fa-regular fa-address-card text-primary"></i>
+                About
+              </h2>
+
+              <button
+                type="button"
+                aria-label="Edit about"
+                class="flex size-8 items-center justify-center rounded-lg text-text-muted transition hover:bg-secondary/20 hover:text-primary"
+              >
+                <i class="fa-solid fa-pen text-xs"></i>
+              </button>
+            </div>
+
+            <p class="mb-4 text-sm leading-7 text-text-muted">
+              Front-End Developer passionate about building beautiful, responsive and user-friendly
+              web experiences.
+            </p>
+
+            <div class="flex flex-col gap-3 sm:flex-row sm:gap-7">
+              <div class="flex items-center gap-2.5 text-sm text-text-muted">
+                <i class="fa-regular fa-envelope w-4 text-primary"></i>
+                <span>{{ profile().email }}</span>
+              </div>
+
+              <div class="flex items-center gap-2.5 text-sm text-text-muted">
+                <i class="fa-solid fa-calendar-days w-4 text-primary"></i>
+                <span>Joined {{ profile().createdAt | date: 'longDate' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Activity Stats -->
+          <div class="grid grid-cols-2 gap-3 lg:grid-cols-1">
+            <!-- My Posts -->
+            <div
+              class="flex items-center justify-between rounded-2xl border border-secondary/30 bg-secondary/10 p-4 transition hover:bg-secondary/15 sm:p-5"
+            >
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-text-muted">
+                  My Posts
+                </p>
+                <p class="mt-2 text-2xl font-bold text-text">{{ myPosts().length }}</p>
+              </div>
+
+              <div
+                class="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary"
+              >
+                <i class="fa-regular fa-file-lines text-lg"></i>
+              </div>
+            </div>
+
+            <!-- Saved Posts -->
+            <div
+              class="flex items-center justify-between rounded-2xl border border-secondary/30 bg-secondary/10 p-4 transition hover:bg-secondary/15 sm:p-5"
+            >
+              <div>
+                <p class="text-[11px] font-semibold uppercase tracking-wider text-text-muted">
+                  Saved Posts
+                </p>
+                <p class="mt-2 text-2xl font-bold text-text">{{ profile().bookmarksCount }}</p>
+              </div>
+
+              <div
+                class="flex size-11 items-center justify-center rounded-xl bg-primary/10 text-primary"
+              >
+                <i class="fa-regular fa-bookmark text-lg"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="space-y-4">
+      <!-- Tabs Header -->
+      <div
+        class="flex flex-col gap-3 rounded-2xl border border-olive/15 bg-surface p-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-4"
+      >
+        <!-- Tabs -->
+        <div class="flex w-fit items-center gap-1 rounded-xl bg-background p-1">
+          <!-- Active Tab -->
+          <button
+            type="button"
+            class="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition"
+          >
+            <i class="fa-regular fa-file-lines"></i>
+            My Posts
+          </button>
+
+          <!-- Saved Tab -->
+          <button
+            type="button"
+            class="flex items-center gap-2 rounded-lg px-4 py-2.5 text-sm font-medium text-text-muted transition hover:bg-secondary/15 hover:text-primary"
+          >
+            <i class="fa-regular fa-bookmark"></i>
+            Saved
+          </button>
+        </div>
+
+        <!-- Posts Count -->
+        <div class="flex items-center justify-between gap-2 px-2 sm:justify-end">
+          <span class="text-xs text-text-muted sm:hidden">Your posts</span>
+
+          <span class="rounded-full bg-secondary/20 px-3 py-1.5 text-xs font-semibold text-primary">
+            {{ myPosts().length }} Posts
+          </span>
+        </div>
+      </div>
+
+      @for (mypost of myPosts(); track mypost._id) {
+        <article
+          class="overflow-hidden rounded-2xl border border-olive/15 bg-surface shadow-sm transition hover:shadow-md hover:shadow-olive/5"
+        >
+          <!-- Post Header -->
+          <div class="flex items-center gap-3 p-4 sm:p-5">
+            <img
+              [src]="mypost.user.photo"
+              [alt]="mypost.user.name"
+              class="size-11 rounded-full border-2 border-secondary/40 object-cover"
+            />
+
+            <div class="min-w-0 flex-1">
+              <p class="truncate text-sm font-semibold text-text">{{ mypost.user.name }}</p>
+
+              <p class="mt-0.5 text-xs text-text-muted">
+                @{{ mypost.user.username }} ·{{ mypost.createdAt | date: 'short' }}
+              </p>
+            </div>
+
+            <!-- View Details -->
+            <!-- <button
+              type="button"
+              class="rounded-lg px-3 py-2 text-xs font-semibold text-primary transition hover:bg-secondary/15 sm:text-sm"
+            >
+              View details
+              <i class="fa-solid fa-arrow-up-right-from-square ml-1 text-2xs"></i>
+            </button> -->
+          </div>
+
+          <!-- Post Body -->
+          <div class="px-4 pb-5 sm:px-5">
+            @if (mypost.body) {
+              <p class="whitespace-pre-line text-sm leading-7 text-text">
+                {{ mypost.body }}
+              </p>
+            }
+          </div>
+
+          <!-- Post Image (Optional) -->
+          @if (mypost.image) {
+            <img [src]="mypost.image" alt="Post image" class="max-h-105 w-full object-cover" />
+          }
+
+          <!-- Post Footer -->
+          <div
+            class="flex flex-wrap items-center justify-between gap-3 border-t border-olive/10 px-4 py-3 sm:px-5"
+          >
+            <div class="flex flex-wrap items-center gap-4 sm:gap-6">
+              <span class="flex items-center gap-2 text-xs text-text-muted">
+                <i class="fa-regular fa-heart text-primary"></i>
+                {{ mypost.likesCount }} likes
+              </span>
+
+              <span class="flex items-center gap-2 text-xs text-text-muted">
+                <i class="fa-solid fa-share text-primary"></i>
+                {{ mypost.sharesCount }} shares
+              </span>
+
+              <span #el class="cursor-pointer flex items-center gap-2 text-xs text-text-muted">
+                <i class="fa-regular fa-comment text-primary"></i>
+                {{ mypost.commentsCount }} comments
+              </span>
+            </div>
+          </div>
+          @defer (on interaction(el)) {
+            <app-comments [postId]="mypost._id"></app-comments>
+          }
+        </article>
+      }
+    </section>
+  </div>
+</main>

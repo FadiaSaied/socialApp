@@ -1,0 +1,182 @@
+<section class="px-3 pt-5 pb-6 sm:px-6">
+  <article
+    class="mx-auto flex w-full max-w-3xl flex-col overflow-hidden rounded-2xl border border-olive/15 bg-surface shadow-md shadow-olive/5"
+  >
+    <!-- Post Header -->
+    <div class="flex items-start gap-3 p-4 sm:p-5">
+      <img
+        [src]="post().user.photo"
+        [alt]="post().user.name"
+        class="size-11 shrink-0 rounded-full border-2 border-secondary/50 object-cover"
+      />
+
+      <div class="min-w-0 flex-1 pt-1">
+        <p class="truncate text-sm font-semibold text-text sm:text-base">
+          {{ post().user.name }}
+        </p>
+
+        <p class="mt-1 truncate text-xs text-text-muted">
+          @{{ post().user.username }} · {{ post().createdAt }}
+        </p>
+      </div>
+
+      <!-- Privacy Dropdown -->
+      <!-- <div class="relative group shrink-0">
+        <button
+          type="button"
+          aria-label="Post privacy"
+          class="flex items-center gap-1.5 rounded-full bg-secondary/15 px-3 py-2 text-xs font-medium text-text-muted transition hover:bg-secondary/25"
+        >
+          <span>{{ post().privacy }}</span>
+          <i class="fa-solid fa-chevron-down text-[9px]"></i>
+        </button>
+
+        @if (post().user._id === userId()) {
+          <div
+            class="invisible absolute right-0 top-full z-30 mt-2 w-44 translate-y-1 rounded-xl border border-olive/15 bg-surface p-1.5 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100"
+          >
+            <button
+              (click)="post().privacy = 'public'"
+              type="button"
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+            >
+              <i class="fa-solid fa-earth-americas w-4 text-center text-text-muted"></i>
+              Public
+            </button>
+
+            <button
+              (click)="post().privacy = 'followers only'"
+              type="button"
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+            >
+              <i class="fa-solid fa-users w-4 text-center text-text-muted"></i>
+              Followers only
+            </button>
+
+            <button
+              (click)="post().privacy = 'only me'"
+              type="button"
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+            >
+              <i class="fa-solid fa-lock w-4 text-center text-text-muted"></i>
+              Only me
+            </button>
+          </div>
+        }
+      </div> -->
+
+      <!-- Post Options Dropdown -->
+      <!-- <div class="relative group shrink-0">
+        <button
+          type="button"
+          aria-label="Post options"
+          class="flex size-9 items-center justify-center rounded-full text-text-muted transition hover:bg-secondary/20 hover:text-text"
+        >
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+
+        <div
+          class="invisible absolute right-0 top-full z-30 mt-2 w-48 translate-y-1 rounded-xl border border-olive/15 bg-surface p-1.5 opacity-0 shadow-lg transition-all duration-200 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100"
+        >
+          @if (post().user._id !== userId()) {
+            <button
+              type="button"
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+            >
+              <i class="fa-regular fa-bookmark w-4 text-center text-text-muted"></i>
+              Save post
+            </button>
+          } @else {
+            <button
+              type="button"
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-text transition hover:bg-secondary/15"
+            >
+              <i class="fa-solid fa-pen-to-square w-4 text-center text-text-muted"></i>
+              Edit post
+            </button>
+
+            <div class="my-1 border-t border-olive/10"></div>
+
+            <button
+              (click)="deleteItem(post()._id)"
+              type="button"
+              class="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-red-600 transition hover:bg-red-500/10"
+            >
+              <i class="fa-regular fa-trash-can w-4 text-center"></i>
+              Delete post
+            </button>
+          }
+        </div>
+      </div> -->
+    </div>
+
+    <!-- Post Text -->
+    @if (post().body) {
+      <div class="px-4 pb-4 sm:px-5">
+        <p class="whitespace-pre-line wrap-break text-sm leading-6 text-text">
+          {{ post().body }}
+        </p>
+      </div>
+    }
+
+    <!-- Post Image -->
+    @if (post().image) {
+      <div class="w-full overflow-hidden bg-background">
+        <img
+          [src]="post().image"
+          [alt]="post().body || 'Post image'"
+          class="max-h-[420px] w-full object-cover"
+        />
+      </div>
+    }
+
+    <!-- Engagement Counts -->
+    <div class="flex items-center justify-between gap-3 px-4 py-3 text-xs text-text-muted sm:px-5">
+      <span>
+        <i class="fa-solid fa-heart mr-1 text-primary"></i>
+        {{ post().likesCount }} likes
+      </span>
+
+      <span> {{ post().commentsCount }} comments · {{ post().sharesCount }} shares </span>
+    </div>
+
+    <div class="mx-4 border-t border-olive/10 sm:mx-5"></div>
+
+    <!-- Actions -->
+    <div class="grid grid-cols-3 gap-1 p-2 sm:px-3">
+      <button
+        type="button"
+        class="flex items-center justify-center gap-2 rounded-lg py-2.5 text-xs font-medium text-text-muted transition hover:bg-secondary/15 sm:text-sm"
+      >
+        <i class="fa-regular fa-heart"></i>
+        Like
+      </button>
+
+      <button
+        #el
+        type="button"
+        class="flex cursor-pointer items-center justify-center gap-2 rounded-lg py-2.5 text-xs font-medium text-text-muted transition hover:bg-secondary/15 sm:text-sm"
+      >
+        <i class="fa-regular fa-comment"></i>
+        Comment
+      </button>
+
+      <button
+        type="button"
+        class="flex items-center justify-center gap-2 rounded-lg py-2.5 text-xs font-medium text-text-muted transition hover:bg-secondary/15 sm:text-sm"
+      >
+        <i class="fa-solid fa-share"></i>
+        Share
+      </button>
+    </div>
+  </article>
+
+  <!-- Comments -->
+  @defer (on interaction(el)) {
+    <div
+      class="mx-auto mt-4 w-full max-w-3xl overflow-hidden rounded-2xl border border-olive/15 bg-surface shadow-sm"
+    >
+      <app-comments [postId]="post().id"></app-comments>
+    </div>
+  }
+</section>
